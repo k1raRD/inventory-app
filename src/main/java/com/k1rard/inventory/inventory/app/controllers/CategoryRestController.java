@@ -58,4 +58,14 @@ public class CategoryRestController {
     public ResponseEntity<CategoryResponseRest> saveCategory(@RequestBody Category category, @PathVariable("id") Long id) {
         return service.update(category, id);
     }
+
+    /**
+     * delete category
+     * @param id of the category to delete
+     * @return {@link ResponseEntity} with metadata
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CategoryResponseRest> saveCategory(@PathVariable("id") Long id) {
+        return service.deleteById(id);
+    }
 }
