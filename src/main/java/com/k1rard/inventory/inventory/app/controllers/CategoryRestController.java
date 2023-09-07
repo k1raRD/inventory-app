@@ -1,13 +1,11 @@
 package com.k1rard.inventory.inventory.app.controllers;
 
+import com.k1rard.inventory.inventory.app.models.Category;
 import com.k1rard.inventory.inventory.app.response.CategoryResponseRest;
 import com.k1rard.inventory.inventory.app.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/categories")
@@ -18,6 +16,7 @@ public class CategoryRestController {
 
     /**
      * Get all categories.
+     *
      * @return {@link ResponseEntity} with metadata and categories data.
      */
     @GetMapping
@@ -27,6 +26,7 @@ public class CategoryRestController {
 
     /**
      * Get categories by id
+     *
      * @param id of the category to get
      * @return {@link ResponseEntity} with metadata and categories data.
      */
@@ -36,4 +36,14 @@ public class CategoryRestController {
     }
 
 
+    /**
+     * Saved a category
+     *
+     * @param category to save
+     * @return category saved on db
+     */
+    @PostMapping
+    public ResponseEntity<CategoryResponseRest> saveCategory(@RequestBody Category category) {
+        return service.save(category);
+    }
 }
