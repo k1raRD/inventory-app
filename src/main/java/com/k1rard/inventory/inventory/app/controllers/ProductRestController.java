@@ -19,6 +19,11 @@ public class ProductRestController {
     @Autowired
     private IProductService productService;
 
+    @GetMapping
+    public ResponseEntity<ProductResponseRest> search() {
+        return productService.search();
+    }
+
     /**
      * Search by name
      *
