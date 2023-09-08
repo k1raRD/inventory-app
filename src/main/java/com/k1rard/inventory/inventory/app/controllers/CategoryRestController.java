@@ -45,7 +45,7 @@ public class CategoryRestController {
      */
     @PostMapping
     public ResponseEntity<CategoryResponseRest> saveCategory(@RequestBody Category category) {
-        return service.save(category);
+        return service.save(category); 
     }
 
     /**
