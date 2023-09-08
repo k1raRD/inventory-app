@@ -19,6 +19,11 @@ public class ProductRestController {
     @Autowired
     private IProductService productService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponseRest> searchById(@PathVariable("id") Long id) {
+        return productService.searchById(id);
+    }
+
     /**
      *
      * @param picture
