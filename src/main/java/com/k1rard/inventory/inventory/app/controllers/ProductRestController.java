@@ -19,6 +19,12 @@ public class ProductRestController {
     @Autowired
     private IProductService productService;
 
+    /**
+     * Search by name
+     *
+     * @param name
+     * @return
+     */
     @GetMapping("/filter/{name}")
     public ResponseEntity<ProductResponseRest> searchByName(@PathVariable("name") String name) {
         return productService.searchByName(name);
@@ -30,7 +36,6 @@ public class ProductRestController {
     }
 
     /**
-     *
      * @param picture
      * @param name
      * @param price
@@ -41,9 +46,7 @@ public class ProductRestController {
      */
     @PostMapping
     public ResponseEntity<ProductResponseRest> saveProduct(@RequestParam("picture") MultipartFile picture,
-                                                           @RequestParam("name") String name,
-                                                           @RequestParam("price") Integer price,
-                                                           @RequestParam("quantity") Integer quantity,
+                                                           @RequestParam("name") String name, @RequestParam("price") Integer price, @RequestParam("quantity") Integer quantity,
                                                            @RequestParam("categoryId") Long categoryId) throws IOException {
         Product product = new Product();
         product.setName(name);
@@ -53,5 +56,10 @@ public class ProductRestController {
 
         ResponseEntity<ProductResponseRest> response = productService.save(product, categoryId);
         return response;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ProductResponseRest> deleteById(@PathVariable("id") Long id) {
+        return productService.deleteById(id);
     }
 }
