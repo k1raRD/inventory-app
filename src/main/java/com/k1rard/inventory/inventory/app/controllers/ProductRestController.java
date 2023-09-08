@@ -19,6 +19,11 @@ public class ProductRestController {
     @Autowired
     private IProductService productService;
 
+    @GetMapping("/filter/{name}")
+    public ResponseEntity<ProductResponseRest> searchByName(@PathVariable("name") String name) {
+        return productService.searchByName(name);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseRest> searchById(@PathVariable("id") Long id) {
         return productService.searchById(id);
