@@ -3,7 +3,9 @@ package com.k1rard.inventory.inventory.app.controllers;
 import com.k1rard.inventory.inventory.app.models.Product;
 import com.k1rard.inventory.inventory.app.response.ProductResponseRest;
 import com.k1rard.inventory.inventory.app.services.IProductService;
+import com.k1rard.inventory.inventory.app.utils.ProductExcelExporter;
 import com.k1rard.inventory.inventory.app.utils.Util;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -80,5 +82,25 @@ public class ProductRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductResponseRest> deleteById(@PathVariable("id") Long id) {
         return productService.deleteById(id);
+    }
+
+    /**
+     * export products to excel
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=result_products";
+        response.setHeader(headerKey, headerValue);
+
+        ResponseEntity<ProductResponseRest> productResponse = productService.search();
+
+        ProductExcelExporter excelExporter = new ProductExcelExporter(productResponse.getBody()
+                        .getProduct().getProducts());
+
+        excelExporter.export(response);
     }
 }

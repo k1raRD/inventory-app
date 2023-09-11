@@ -23,7 +23,6 @@ public class ProductServiceImpl implements IProductService{
 
     private ICategoryRepository categoryRepository;
 
-    @Autowired
     public ProductServiceImpl(IProductRepository productRepository, ICategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
@@ -97,7 +96,7 @@ public class ProductServiceImpl implements IProductService{
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public ResponseEntity<ProductResponseRest> searchByName(String name) {
         ProductResponseRest response = new ProductResponseRest();
         List<Product> list = new ArrayList<>();
@@ -107,7 +106,7 @@ public class ProductServiceImpl implements IProductService{
             // Search producto by name
             listFound = productRepository.findByNameLike(name);
 
-            if(listFound.size() > 0) {
+            if(!listFound.isEmpty()) {
                 listFound.forEach(p -> {
                     byte[] imageDecompressed = Util.decompressZLib(p.getPicture());
                     p.setPicture(imageDecompressed);
